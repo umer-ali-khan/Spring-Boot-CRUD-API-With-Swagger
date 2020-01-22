@@ -20,10 +20,13 @@ public class CourseAPIApplication {
 	public static void main(String[] args) {
 		SpringApplication application = new SpringApplication(CourseAPIApplication.class);
 
-		Map<String, Object> map = new HashMap<>();
-		map.put("server.servlet.context-path", "/spring-boot-app");
-		map.put("server.port", "8585");
-		application.setDefaultProperties(map);
+//		Map<String, Object> map = new HashMap<>();
+//		map.put("server.servlet.context-path", "/spring-boot-app");
+//		map.put("server.port", "8080");
+//		application.setDefaultProperties(map);
+
+		// above properties are moved to application.properties file.
+
 		application.run(args);
 	}
 
