@@ -5,67 +5,52 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import io.springbootrestapi.starterapp.repositories.TopicRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TopicService {
 
-	private static List<Topic> topics;
-	
-	static {
-		
-		topics = new ArrayList<Topic>(Arrays.asList(
-				new Topic(),
-				new Topic("1", "CS", "Computer Science"),
-				new Topic("2", "Electrical Engineering", "Electrical Engineering")));
-	}
-	
+	@Autowired
+	private TopicRepository topicRepository;
+
 	public List<Topic> getAllTopics() {
+		List<Topic> topics = new ArrayList<>();
+		topicRepository.findAll().forEach(topics::add);
 		return topics;
 	}
 	
 	public Topic getTopic(String id) {
-		Topic topic = new Topic();
-		if (!id.isEmpty() && null != id) {
-			Optional<Topic> topicFound = topics.stream().filter(t -> t.getId().equalsIgnoreCase(id)).findAny();
-			if(topicFound.isPresent()) {
-				topic = topicFound.get();
-			}
+		Topic t = null;
+		Optional<Topic> topic = topicRepository.findById(id);
+		if(topic.isPresent()) {
+			t = topic.get();
 		}
-		return topic;	
+		return t;
 	}
 	
 	public void addTopic(Topic t) {
-		topics.add(t);
+		topicRepository.save(t);
 	}
 	
 	public void updateTopic(String id, Topic t) {
-		for(Topic topic: topics) {
-			if(topic.getId().equals(id)) {
-				topic.setDescription(t.getDescription());
-				topic.setName(t.getName());
-				break;
-			}
+		if(topicRepository.existsById(id)) {
+			topicRepository.save(t);
 		}
 	}
 
 	public void deleteTopic(String id, Topic t) {
-		
-		for(Topic topic: topics) {
-			if(topic.getId().equals(id)) {
-				topics.remove(topic);
-				break;
-			}
-		}
+		topicRepository.deleteById(id);
 	}
 
 	public void patchTopic(String id, PatchTopic t) {
-		
-		for(Topic topic: topics) {
-			if(topic.getId().equals(id)) {
-				topic.setDescription(t.getDescription());
-				break;
-			}
-		}
+//
+//		for(Topic topic: topics) {
+//			if(topic.getId().equals(id)) {
+//				topic.setDescription(t.getDescription());
+//				break;
+//			}
+//		}
 	}
 }

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import io.springbootrestapi.starterapp.topic.Topic;
 
 @Repository
-public interface TopicRepository extends CrudRepository<Topic, Integer>{
+public interface TopicRepository extends CrudRepository<Topic, String>{
 
 }

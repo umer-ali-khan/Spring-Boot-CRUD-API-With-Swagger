@@ -11,7 +11,6 @@ import javax.persistence.Table;
 public class Topic{
 
 	@Id
-    @GeneratedValue
     @Column(name = "id")
 	private String id;
 	@Column(name = "name", nullable = false)
